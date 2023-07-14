@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       length: 2, // Number of tabs
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(500),
+          preferredSize: const Size.fromHeight(450),
           child: AppBar(
             leading: null,
             backgroundColor: Colors.white,
@@ -59,31 +59,38 @@ class _HomePageState extends State<HomePage> {
                 bottomRight: Radius.circular(30),
               ),
             ),
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  fit: BoxFit.contain,
-                  height: 100,
-                ),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: Text('Cligo'),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.notifications, size: 20, color: Colors.black,),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notifications');
-                  },
-                ),
-              ],
+            title: Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 40),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    fit: BoxFit.contain,
+                    height: 100,
+                  ),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(''),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/notifications');
+                    },
+                  ),
+                ],
+              ),
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(520),
+              preferredSize: const Size.fromHeight(300),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 0),
                     child: TabBar(
                       onTap: (index) {
                         setState(() {
@@ -122,7 +129,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+                    padding: const EdgeInsets.only(
+                        left: 16, top: 30, right: 16, bottom: 20),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -132,71 +140,151 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.grey.withOpacity(0.1),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: const Offset(0, 3), // changes the position of shadow
+                            offset: const Offset(
+                                0, 3), // changes the position of shadow
                           ),
                         ],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextFormField(
-                            controller: fromController,
-                            decoration: InputDecoration(
-                              hintText: 'FROM',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Color.fromARGB(255, 0, 68, 145), width: 2),
-                              ),
-                              prefixIcon: const Icon(Icons.location_on),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Table(
+                          defaultVerticalAlignment:
+                              TableCellVerticalAlignment.middle,
+                          border: TableBorder(
+                            top: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1),
+                            right: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1),
+                            bottom: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1),
+                            left: BorderSide(
+                                color: Colors.grey.withOpacity(0.5), width: 1),
+                            horizontalInside: BorderSide(
+                              width: 1,
+                              color: Colors.grey.withOpacity(0.5),
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          TextFormField(
-                            controller: toController,
-                            decoration: InputDecoration(
-                              hintText: 'TO',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Color.fromARGB(255, 0, 68, 145), width: 2),
-                              ),
-                              prefixIcon: const Icon(Icons.location_on),
+                          columnWidths: const {
+                            0: FlexColumnWidth(1),
+                            1: FlexColumnWidth(3),
+                          },
+                          children: [
+                            TableRow(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16, top: 0),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.location_on),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'From',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: TextFormField(
+                                    controller: fromController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter Source',
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          FormBuilderDateTimePicker(
-                            name: 'date',
-                            controller: dateController,
-                            inputType: InputType.date,
-                            format: DateFormat('yyyy-MM-dd'),
-                            decoration: InputDecoration(
-                              hintText: 'DATE',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(color: Color.fromARGB(255, 0, 68, 145), width: 2),
-                              ),
-                              prefixIcon: const Icon(Icons.calendar_today),
+                            TableRow(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16, top: 0),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.location_on),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'To',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: TextFormField(
+                                    controller: toController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter Destination',
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          SizedBox(
-                            width: double.infinity, // Set width to 100%
-                            child: ElevatedButton.icon(
-                              onPressed: _handleSearch,
-                              icon: const Icon(Icons.search),
-                              label: const Text('SEARCH'),
+                            TableRow(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16, top: 0),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.calendar_today),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Date',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: FormBuilderDateTimePicker(
+                                    name: 'date',
+                                    controller: dateController,
+                                    inputType: InputType.date,
+                                    format: DateFormat('dd MMM, EEE'),
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter Date of Journey',
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity, // Set width to 100%
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 20),
+                      child: ElevatedButton.icon(
+                        onPressed: _handleSearch,
+                        icon: const Icon(Icons.search),
+                        label: const Text('SEARCH'),
                       ),
                     ),
                   ),
