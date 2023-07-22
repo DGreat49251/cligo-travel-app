@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+
 
 import 'bus_page.dart';
 import 'cab_page.dart';
+import 'from_screen.dart';
+import 'to_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,21 +32,70 @@ class _HomePageState extends State<HomePage> {
 
   String tripType = 'Bus';
 
-  void _handleSearch() {
-    final String from = fromController.text;
-    final String to = toController.text;
-    final String date = dateController.text;
+  void _handleSearch() async {
+  final String from = fromController.text;
+  final String to = toController.text;
+  final String date = dateController.text;
 
-    // Perform API call with search parameters
+  // Replace 'your_api_endpoint' with the actual API endpoint for fetching available data
+  const String apiUrl = 'https://dzwwjt49od.execute-api.ap-south-1.amazonaws.com/cligoapi/cligodb?tb_name=trip';
 
-    // Navigate to the "/available" route with the fetched result
-    Navigator.pushNamed(context, '/available', arguments: {
-      'tripType': tripType,
-      'from': from,
-      'to': to,
-      'date': date,
-      'available': 10
-    });
+  try {
+    // Make the API call
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      // Parse the response data (assuming the API returns JSON data)
+      final List<dynamic> responseData = json.decode(response.body);
+      // Assuming the API returns an array of objects, each representing a trip
+      // We'll consider the first trip from the response for sending as an object of trip type
+      if (responseData.isNotEmpty) {
+        // Navigate to the "/available" route with the trip object as an argument
+        Navigator.pushNamed(context, '/available', arguments: responseData);
+      } else {
+        // Handle the case where no trips are available in the response
+        log('No available trips found in the response.');
+      }
+    } else {
+      // Handle API error or bad response
+      throw Exception('Failed to fetch data from the API');
+    }
+  } catch (e) {
+    // Handle any exceptions or errors that occur during the API call
+    log('API call error: $e');
+    // Show an error message or handle the error as needed
+  }
+}
+
+
+  Future<void> _navigateAndReturnData(String field) async {
+    final TextEditingController textController = TextEditingController(
+        text: field == 'from' ? fromController.text : toController.text);
+
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          if (field == 'from') {
+            return FromScreen(textController: textController);
+          } else if (field == 'to') {
+            return ToScreen(textController: textController);
+          }
+          return Container();
+        },
+      ),
+    );
+
+    if (result != null && result is String) {
+      if (field == 'from') {
+        setState(() {
+          fromController.text = result;
+        });
+      } else if (field == 'to') {
+        setState(() {
+          toController.text = result;
+        });
+      }
+    }
   }
 
   @override
@@ -50,7 +106,8 @@ class _HomePageState extends State<HomePage> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(450),
           child: AppBar(
-            leading: null,
+            leadingWidth: 0,
+            leading: Container(),
             backgroundColor: Colors.white,
             elevation: 10,
             shape: const RoundedRectangleBorder(
@@ -190,15 +247,21 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: TextFormField(
-                                    controller: fromController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter Source',
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
+                                GestureDetector(
+                                  onTap: () => _navigateAndReturnData('from'),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 16),
+                                    child: Text(
+                                      fromController.text.isNotEmpty
+                                          ? fromController.text
+                                          : 'Enter Source',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: fromController.text.isNotEmpty
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -222,15 +285,21 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: TextFormField(
-                                    controller: toController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter Destination',
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
+                                GestureDetector(
+                                  onTap: () => _navigateAndReturnData('to'),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 16),
+                                    child: Text(
+                                      toController.text.isNotEmpty
+                                          ? toController.text
+                                          : 'Enter Destination',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: toController.text.isNotEmpty
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ),

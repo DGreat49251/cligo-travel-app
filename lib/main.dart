@@ -102,7 +102,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      _navigatorKey.currentState?.pushReplacementNamed(_pageKeys[_selectedIndex]);
+      _navigatorKey.currentState?.pushNamedAndRemoveUntil(_pageKeys[_selectedIndex], ModalRoute.withName('/'));
     } else {
       _navigatorKey.currentState?.pushNamed(_pageKeys[_selectedIndex]);
     }

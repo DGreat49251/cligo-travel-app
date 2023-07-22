@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'add_passenger.dart';
 
 class YellowBox extends StatelessWidget {
+  final String tripId;
   final IconData icon;
   final String from;
   final String to;
   final String date;
   final String available;
+  final String busNumber;
+  final String departureTime;
+  final String arrivalTime;
 
-  const YellowBox({super.key, 
+  const YellowBox({
+    super.key,
+    required this.tripId,
     required this.icon,
     required this.from,
     required this.to,
     required this.date,
     required this.available,
+    required this.busNumber,
+    required this.departureTime,
+    required this.arrivalTime,
   });
 
   @override
@@ -25,7 +35,7 @@ class YellowBox extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: 105.0,
+              height: 130.0,
               padding: const EdgeInsets.all(20.0),
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 227, 216, 65),
@@ -86,20 +96,20 @@ class YellowBox extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 8.0),
-                        const Row(
+                        Row(
                           children: [
                             Expanded(
                               child: Text(
-                                '09.30 AM',
-                                style: TextStyle(
+                                arrivalTime,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 11.0,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            SizedBox(width: 8.0),
-                            Expanded(
+                            const SizedBox(width: 8.0),
+                            const Expanded(
                               child: Text(
                                 '4hr 30 min',
                                 style: TextStyle(
@@ -109,11 +119,11 @@ class YellowBox extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
-                                '12.30 PM',
-                                style: TextStyle(
+                                departureTime,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 11.0,
                                 ),
@@ -129,38 +139,55 @@ class YellowBox extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: 80.0,
-            height: 105.0,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 225, 239, 255),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8.0),
-                bottomRight: Radius.circular(8.0),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddPassengerPage(
+                      busNumber: busNumber,
+                      from: from,
+                      to: to,
+                      date: date,
+                      tripId: tripId,
+                      departureTime: departureTime,
+                      arrivalTime: arrivalTime),
+                ),
+              );
+            },
+            child: Container(
+              width: 80.0,
+              height: 130.0,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 225, 239, 255),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                ),
               ),
-            ),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  available.toString(),
-                  style: const TextStyle(
-                    color: Colors.green,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    available.toString(),
+                    style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4.0),
-                const Text(
-                  'Available',
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 11.0,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 4.0),
+                  const Text(
+                    'Available',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 11.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -176,7 +203,8 @@ class BookingCard extends StatelessWidget {
   final String date;
   final String name;
 
-  const BookingCard({super.key, 
+  const BookingCard({
+    super.key,
     required this.icon,
     required this.from,
     required this.to,
@@ -197,9 +225,8 @@ class BookingCard extends StatelessWidget {
               height: 105.0,
               padding: const EdgeInsets.all(20.0),
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 227, 216, 65),
-                borderRadius: BorderRadius.all(Radius.circular(8))
-              ),
+                  color: Color.fromARGB(255, 227, 216, 65),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
               child: Row(
                 children: [
                   Icon(
@@ -254,7 +281,8 @@ class BookingCard extends StatelessWidget {
                         const SizedBox(height: 8.0),
                         Row(
                           children: [
-                            const Icon(Icons.person, color: Colors.black, size: 11.0),
+                            const Icon(Icons.person,
+                                color: Colors.black, size: 11.0),
                             const SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
@@ -280,4 +308,3 @@ class BookingCard extends StatelessWidget {
     );
   }
 }
-

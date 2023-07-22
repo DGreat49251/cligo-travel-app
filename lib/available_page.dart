@@ -1,31 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'card.dart';
 
 class AvailablePage extends StatelessWidget {
-  const AvailablePage({Key? key}) : super(key: key);
+  final dynamic tripObject;
+
+  const AvailablePage({Key? key, this.tripObject}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic>? arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-
-    if (arguments == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Available'),
-        ),
-        body: const Center(
-          child: Text('No search parameters found.'),
-        ),
-      );
-    }
-
-    final String tripType = arguments['tripType'] ?? '';
-    final String from = arguments['from'] ?? '';
-    final String to = arguments['to'] ?? '';
-    final String date = arguments['date'] ?? '';
-    final String available = arguments['available'].toString();
-
+    final List<dynamic>? responseData = 
+        ModalRoute.of(context)?.settings.arguments as List<dynamic>?;
+    log(responseData.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Available'),
@@ -33,40 +20,21 @@ class AvailablePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: [
-          YellowBox(
-            icon: tripType == 'Bus' ? Icons.directions_bus : Icons.local_taxi,
-            from: from,
-            to: to,
-            date: date,
-            available: available,
-          ),
+          for (final tripData in responseData!)
+            YellowBox(
+              tripId: tripData[0].toString(),
+              icon: Icons.directions_bus,
+              from: tripData[2].toString(),
+              to: tripData[3].toString(),
+              date: tripData[1].toString(),
+              available: tripData[8].toString(),
+              busNumber: tripData[4].toString(),
+              departureTime: tripData[5].toString(),
+              arrivalTime: tripData[6].toString(),
+            ),
           const SizedBox(height: 5.0),
-          YellowBox(
-            icon: tripType == 'Bus' ? Icons.directions_bus : Icons.local_taxi,
-            from: from,
-            to: to,
-            date: date,
-            available: available,
-          ),
-          const SizedBox(height: 5.0),
-          YellowBox(
-            icon: tripType == 'Bus' ? Icons.directions_bus : Icons.local_taxi,
-            from: from,
-            to: to,
-            date: date,
-            available: available,
-          ),
-          const SizedBox(height: 5.0),
-          YellowBox(
-            icon: tripType == 'Bus' ? Icons.directions_bus : Icons.local_taxi,
-            from: from,
-            to: to,
-            date: date,
-            available: available,
-          ),
         ],
       ),
     );
   }
 }
-
