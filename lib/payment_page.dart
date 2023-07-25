@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'confirmation_page.dart';
 import 'models/passenger.dart';
 
@@ -13,6 +13,7 @@ class PaymentPage extends StatelessWidget {
   final String from;
   final String to;
   final String tripId;
+  final String price;
 
   const PaymentPage({
     Key? key,
@@ -23,20 +24,21 @@ class PaymentPage extends StatelessWidget {
     required this.from,
     required this.to,
     required this.tripId,
-    required this.passengers,
+    required this.passengers, 
+    required this.price,
   }) : super(key: key);
 
-  // Function to format the date
-  String _formatDate(String date) {
-    final parsedDate = DateTime.parse(date);
-    final dateFormat = DateFormat('dd MMM, EEE');
-    return dateFormat.format(parsedDate);
-  }
+  // // Function to format the date
+  // String _formatDate(String date) {
+  //   final parsedDate = DateTime.parse(date);
+  //   final dateFormat = DateFormat('dd MMM, EEE');
+  //   return dateFormat.format(parsedDate);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = _formatDate(date);
-    final grossPrice = passengers.length * 500;
+    // final formattedDate = _formatDate(date);
+    final grossPrice = passengers.length * double.parse(price);
     final nettPrice = (1 + gstRate / 100) * grossPrice;
     return MaterialApp(
       home: Scaffold(
@@ -72,7 +74,7 @@ class PaymentPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    formattedDate,
+                    date,
                     style: const TextStyle(fontSize: 14),
                   ),
                 ],

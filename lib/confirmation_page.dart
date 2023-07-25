@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 import 'models/passenger.dart';
 
@@ -27,12 +27,12 @@ class ConfirmationPage extends StatelessWidget {
       required this.price})
       : super(key: key);
 
-  // Function to format the date
-  String _formatDate(String date) {
-    final parsedDate = DateTime.parse(date);
-    final dateFormat = DateFormat('dd MMM, EEE');
-    return dateFormat.format(parsedDate);
-  }
+  // // Function to format the date
+  // String _formatDate(String date) {
+  //   final parsedDate = DateTime.parse(date);
+  //   final dateFormat = DateFormat('dd MMM, EEE');
+  //   return dateFormat.format(parsedDate);
+  // }
 
   Row buildCircleAvatarRow(int count) {
     return Row(
@@ -51,7 +51,7 @@ class ConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = _formatDate(date);
+    // final formattedDate = _formatDate(date);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -153,7 +153,7 @@ class ConfirmationPage extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  formattedDate,
+                                  date,
                                   style: const TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,

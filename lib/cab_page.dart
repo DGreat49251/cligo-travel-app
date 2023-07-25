@@ -10,6 +10,13 @@ class CabPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(8.0),
       children: const [
+        Text(
+          "Upcoming (1)",
+          style: TextStyle(
+              fontSize: 11.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 0, 68, 145)),
+        ),
         BookingCard(
           icon: Icons.local_taxi,
           from: "from",

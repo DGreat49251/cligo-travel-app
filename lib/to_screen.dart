@@ -73,7 +73,8 @@ class _ToScreenState extends State<ToScreen> {
                 );
               },
               onSuggestionSelected: (suggestion) {
-                widget.textController.text = suggestion.split(' (')[0];
+                // widget.textController.text = suggestion.split(' (')[1].split(')')[0];
+                widget.textController.text = suggestion;
               },
             ),
             const SizedBox(height: 16),

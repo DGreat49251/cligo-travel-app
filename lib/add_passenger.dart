@@ -1,6 +1,6 @@
 import 'package:cligo/payment_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'models/passenger.dart';
 
 class AddPassengerPage extends StatelessWidget {
@@ -11,6 +11,7 @@ class AddPassengerPage extends StatelessWidget {
   final String from;
   final String to;
   final String tripId;
+  final String price;
 
   const AddPassengerPage({
     Key? key,
@@ -21,18 +22,19 @@ class AddPassengerPage extends StatelessWidget {
     required this.from,
     required this.to,
     required this.tripId,
+    required this.price,
   }) : super(key: key);
 
-  // Function to format the date
-  String _formatDate(String date) {
-    final parsedDate = DateTime.parse(date);
-    final dateFormat = DateFormat('dd MMM, EEE');
-    return dateFormat.format(parsedDate);
-  }
+  // // Function to format the date
+  // String _formatDate(String date) {
+  //   final parsedDate = DateTime.parse(date);
+  //   final dateFormat = DateFormat('dd MMM, EEE');
+  //   return dateFormat.format(parsedDate);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = _formatDate(date);
+    // final formattedDate = _formatDate(date);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -67,7 +69,7 @@ class AddPassengerPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    formattedDate,
+                    date,
                     style: const TextStyle(fontSize: 14),
                   ),
                 ],
@@ -83,6 +85,7 @@ class AddPassengerPage extends StatelessWidget {
           from: from,
           to: to,
           tripId: tripId,
+          price: price
         ),
       ),
     );
@@ -97,6 +100,7 @@ class PassengerPage extends StatefulWidget {
   final String from;
   final String to;
   final String tripId;
+  final String price;
 
   const PassengerPage({
     Key? key,
@@ -107,6 +111,7 @@ class PassengerPage extends StatefulWidget {
     required this.from,
     required this.to,
     required this.tripId,
+    required this.price,
   }) : super(key: key);
 
   @override
@@ -118,6 +123,7 @@ class PassengerPage extends StatefulWidget {
         from: from,
         to: to,
         tripId: tripId,
+        price: price,
   );
 }
 
@@ -130,6 +136,8 @@ class _PassengerPageState extends State<PassengerPage> {
   final String from;
   final String to;
   final String tripId;
+  final String price;
+
   bool showForm = false;
 
   _PassengerPageState({
@@ -139,7 +147,8 @@ class _PassengerPageState extends State<PassengerPage> {
     required this.departureTime,
     required this.from,
     required this.to,
-    required this.tripId,
+    required this.tripId, 
+    required this.price,
   });
 
   void _handleAddPassenger(Passenger? newPassenger) {
@@ -305,7 +314,8 @@ class _PassengerPageState extends State<PassengerPage> {
                         from: from,
                         to: to,
                         tripId: tripId,
-                        passengers: passengers)),
+                        passengers: passengers,
+                        price: price)),
               );
             },
             child: Container(

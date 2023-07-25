@@ -11,6 +11,8 @@ class YellowBox extends StatelessWidget {
   final String busNumber;
   final String departureTime;
   final String arrivalTime;
+  final String price;
+  final String status;
 
   const YellowBox({
     super.key,
@@ -22,7 +24,9 @@ class YellowBox extends StatelessWidget {
     required this.available,
     required this.busNumber,
     required this.departureTime,
-    required this.arrivalTime,
+    required this.arrivalTime, 
+    required this.price,
+    required this.status
   });
 
   @override
@@ -57,7 +61,7 @@ class YellowBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Scheduled | $date',
+                          '${status[0].toUpperCase()}${status.substring(1)} | $date',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 11.0,
@@ -132,6 +136,16 @@ class YellowBox extends StatelessWidget {
                             ),
                           ],
                         ),
+                        Center(
+                          child: Text(
+                            'Price:  \u{20B9} $price',  // \u{20B9} is the unicode for the rupee symbol
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -151,7 +165,7 @@ class YellowBox extends StatelessWidget {
                       date: date,
                       tripId: tripId,
                       departureTime: departureTime,
-                      arrivalTime: arrivalTime),
+                      arrivalTime: arrivalTime, price: price,),
                 ),
               );
             },

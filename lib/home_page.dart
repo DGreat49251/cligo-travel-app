@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState();
+  
 }
 
 class _HomePageState extends State<HomePage> {
@@ -33,12 +34,12 @@ class _HomePageState extends State<HomePage> {
   String tripType = 'Bus';
 
   void _handleSearch() async {
-  final String from = fromController.text;
-  final String to = toController.text;
+  final String from = fromController.text.split(' (')[1].split(')')[0];
+  final String to = toController.text.split(' (')[1].split(')')[0];
   final String date = dateController.text;
 
   // Replace 'your_api_endpoint' with the actual API endpoint for fetching available data
-  const String apiUrl = 'https://dzwwjt49od.execute-api.ap-south-1.amazonaws.com/cligoapi/cligodb?tb_name=trip';
+  final String apiUrl = 'https://dzwwjt49od.execute-api.ap-south-1.amazonaws.com/cligoapi/trip?date=$date&destination=$to&source=$from';
 
   try {
     // Make the API call
@@ -96,6 +97,12 @@ class _HomePageState extends State<HomePage> {
         });
       }
     }
+  }
+
+  bool isSearchButtonEnabled() {
+    return fromController.text.isNotEmpty &&
+        toController.text.isNotEmpty &&
+        dateController.text.isNotEmpty;
   }
 
   @override
@@ -351,6 +358,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 20),
                       child: ElevatedButton.icon(
+                        // onPressed: isSearchButtonEnabled() ? _handleSearch : null,
                         onPressed: _handleSearch,
                         icon: const Icon(Icons.search),
                         label: const Text('SEARCH'),
