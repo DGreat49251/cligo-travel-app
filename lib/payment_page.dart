@@ -58,24 +58,24 @@ class PaymentPage extends StatelessWidget {
                 children: [
                   Text(
                     busNumber,
-                    style: const TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 16),
                   ),
                   Text(
                     departureTime,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),
               Text(
                 '$from - $to',
-                style: const TextStyle(fontSize: 18, color: Colors.white),
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     date,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),
@@ -115,9 +115,9 @@ class PaymentPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       Table(
                         columnWidths: const <int, TableColumnWidth>{
-                          0: FractionColumnWidth(0.5),
-                          1: FractionColumnWidth(0.25),
-                          2: FractionColumnWidth(0.25),
+                          0: FractionColumnWidth(0.4),
+                          1: FractionColumnWidth(0.3),
+                          2: FractionColumnWidth(0.3),
                         },
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
@@ -146,7 +146,7 @@ class PaymentPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Rs.$grossPrice",
+                                    "Rs. ${grossPrice.toStringAsFixed(2)}",
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -177,7 +177,7 @@ class PaymentPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    (nettPrice - grossPrice).toString(),
+                                    "Rs. ${(nettPrice - grossPrice).toStringAsFixed(2)}",
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
